@@ -61,7 +61,8 @@ provider:
 package:
   artifact: pua_scraper/package.zip
 functions:
-  hello:
+  scrape:
+    timeout: 30
     handler: handler.scrape
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
