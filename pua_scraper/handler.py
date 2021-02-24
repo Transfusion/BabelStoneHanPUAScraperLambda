@@ -3,8 +3,13 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+from urllib.parse import urljoin, urlparse
 
 FIELDS = ["cp", "char", "ids", "note", "src", "src_refs", "enc_stat"]
+
+
+def is_absolute(url):
+    return bool(urlparse(url).netloc)
 
 
 def scrape(event, context):
@@ -25,6 +30,10 @@ def pua_scrape():
     for row in tbody.find_all("tr"):
         obj = {}
         for idx, col in enumerate(row.find_all("td")):
+            for a in col.find_all("a"):
+                if not is_absolute(a["href"]):
+                    a["href"] = urljoin("https://babelstone.co.uk/Fonts/", a["href"])
+
             if idx > 2:
                 obj[FIELDS[idx]] = col.decode_contents()
             else:
