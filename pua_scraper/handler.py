@@ -9,8 +9,10 @@ FIELDS = ["cp", "char", "ids", "note", "src", "src_refs", "enc_stat"]
 
 def scrape(event, context):
     data = pua_scrape()
-    file_name = f"pua-{data['ts']}"
+    file_name = f"pua-{data['ts']}.json"
     save_file_to_s3("babelstone_han_pua_json", file_name, data)
+
+    save_file_to_s3("babelstone_han_pua_json", "pua-latest.json", data)
 
 
 def pua_scrape():
